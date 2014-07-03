@@ -1,0 +1,12 @@
+# This file is auto-generated during the composer install
+parameters:
+    database_driver: pdo_mysql
+    database_host: 127.0.0.1
+    database_port: null
+    database_name: webapps
+    database_user: root
+    database_password: 456123
+    locale: en
+    secret: secret
+    build_server_host: localhost
+    build_server_ip: 127.0.0.1

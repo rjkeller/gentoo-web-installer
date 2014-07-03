@@ -1,0 +1,65 @@
+{#
+ # Gentoo Server Manager Project
+ # Copyright (C) 2014, Roger L Keller (rjkellercode@pixonite.com),
+ # All rights reserved.
+ #
+ # This library is free software; you can redistribute it and/or
+ # modify it under the terms of the GNU Lesser General Public
+ # License as published by the Free Software Foundation; either
+ # version 3.0 of the License, or (at your option) any later version.
+ #
+ # This library is distributed in the hope that it will be useful,
+ # but WITHOUT ANY WARRANTY; without even the implied warranty of
+ # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ # Lesser General Public License for more details.
+ #
+ # You should have received a copy of the GNU Lesser General Public
+ # License along with this library.
+ #}
+
+# These settings were set by the catalyst build script that automatically
+# built this stage.
+# Please consult /usr/share/portage/config/make.conf.example for a more
+# detailed example.
+
+CFLAGS="-march=native -O2 -pipe"
+MAKEOPS="-j{{ server.numCpus }}"
+
+EMERGE_DEFAULT_OPTS="--jobs={{ server.numCpus }} --load-average={{ server.numCpus }}"
+
+{{ site.ServerGenerator.PortageInfo }}
+
+USE="{{ site.ServerGenerator.PortageUseFlags }} {{ site.GlobalUSE }}"
+
+{% if server.inputDevices != null %}
+INPUT_DEVICES="{{ server.inputDevices }}"
+{% endif %}
+{% if server.videoCards != null %}
+VIDEO_CARDS="{{ server.videoCards }}"
+DRACUT_MODULES="plymouth"
+{% endif %}
+
+
+
+
+GENTOO_MIRRORS="ftp://ftp.ussg.iu.edu/pub/linux/gentoo http://ftp.ucsb.edu/pub/mirrors/linux/gentoo/"
+SYNC="rsync://rsync25.us.gentoo.org/gentoo-portage"
+{% if site.GlobalKeywords != "null" %}
+ACCEPT_KEYWORDS='{{ site.GlobalKeywords }}'
+{% endif %}
+RUBY_TARGETS="ruby19"
+
+CXXFLAGS="${CFLAGS}"
+# WARNING: Changing your CHOST is not something that should be done lightly.
+# Please consult http://www.gentoo.org/doc/en/change-chost.xml before changing.
+CHOST="x86_64-pc-linux-gnu"
+# These are the USE flags that were used in addition to what is provided by the
+# profile used for building.
+PORTDIR="/usr/portage"
+DISTDIR="${PORTDIR}/distfiles"
+PKGDIR="${PORTDIR}/packages"
+
+{% if site.packageServer != null %}
+PORTAGE_BINHOST="{{ site.packageServer }}"
+EMERGE_DEFAULT_OPTS="--getbinpkgonly"
+{% endif %}

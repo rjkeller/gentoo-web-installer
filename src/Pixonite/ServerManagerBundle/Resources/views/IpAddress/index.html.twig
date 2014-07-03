@@ -1,0 +1,59 @@
+{#
+ # Gentoo Server Manager Project
+ # Copyright (C) 2014, Roger L Keller (rjkellercode@pixonite.com),
+ # All rights reserved.
+ #
+ # This library is free software; you can redistribute it and/or
+ # modify it under the terms of the GNU Lesser General Public
+ # License as published by the Free Software Foundation; either
+ # version 3.0 of the License, or (at your option) any later version.
+ #
+ # This library is distributed in the hope that it will be useful,
+ # but WITHOUT ANY WARRANTY; without even the implied warranty of
+ # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ # Lesser General Public License for more details.
+ #
+ # You should have received a copy of the GNU Lesser General Public
+ # License along with this library.
+ #}
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <h1>IpAddress list</h1>
+
+    <table class="records_list">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Publicip</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td><a href="{{ path('ip-address_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td>{{ entity.publicIp }}</td>
+                <td>
+                <ul>
+                    <li>
+                        <a href="{{ path('ip-address_show', { 'id': entity.id }) }}">show</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('ip-address_edit', { 'id': entity.id }) }}">edit</a>
+                    </li>
+                </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+        <ul>
+        <li>
+            <a href="{{ path('ip-address_new') }}">
+                Create a new entry
+            </a>
+        </li>
+    </ul>
+    {% endblock %}

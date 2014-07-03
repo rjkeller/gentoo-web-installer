@@ -1,0 +1,5 @@
+
+pixonite_server_manager:
+    resource: "@PixoniteServerManagerBundle/Controller/"
+    type:     annotation
+    prefix:   /

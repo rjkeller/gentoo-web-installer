@@ -1,0 +1,78 @@
+{#
+ # Gentoo Server Manager Project
+ # Copyright (C) 2014, Roger L Keller (rjkellercode@pixonite.com),
+ # All rights reserved.
+ #
+ # This library is free software; you can redistribute it and/or
+ # modify it under the terms of the GNU Lesser General Public
+ # License as published by the Free Software Foundation; either
+ # version 3.0 of the License, or (at your option) any later version.
+ #
+ # This library is distributed in the hope that it will be useful,
+ # but WITHOUT ANY WARRANTY; without even the implied warranty of
+ # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ # Lesser General Public License for more details.
+ #
+ # You should have received a copy of the GNU Lesser General Public
+ # License along with this library.
+ #}
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <h1>Server list</h1>
+
+    <table class="records_list">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Publicip</th>
+                <th>Status</th>
+                <th>Siteid</th>
+                <th>Kernel</th>
+                <th>Build logs</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td><a href="{{ path('server_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td>{{ entity.name }}</td>
+                <td>{{ entity.publicIp }}</td>
+                <td>{{ entity.status }}</td>
+                <td>{{ entity.siteId }}</td>
+                <td>{{ entity.kernel }}</td>
+                <td>
+                    {% for log in entity.Logs %}
+                    <a href="{{ path('server_log-viewer_raw', { 'logFileId': log.id } ) }}">
+                        Entry {{ loop.index }}
+                    </a><br>
+                    {% endfor %}
+                </td>
+                <td>
+                <ul>
+                    <li>
+                        <a href="{{ path('server_show', { 'id': entity.id }) }}">show</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('server_edit', { 'id': entity.id }) }}">edit</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('server_operations_create-vm', { 'server_id': entity.id }) }}">install</a>
+                    </li>
+                </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+        <ul>
+        <li>
+            <a href="{{ path('server_new') }}">
+                Create a new entry
+            </a>
+        </li>
+    </ul>
+    {% endblock %}

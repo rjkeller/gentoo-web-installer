@@ -1,0 +1,30 @@
+{#
+ # Gentoo Server Manager Project
+ # Copyright (C) 2014, Roger L Keller (rjkellercode@pixonite.com),
+ # All rights reserved.
+ #
+ # This library is free software; you can redistribute it and/or
+ # modify it under the terms of the GNU Lesser General Public
+ # License as published by the Free Software Foundation; either
+ # version 3.0 of the License, or (at your option) any later version.
+ #
+ # This library is distributed in the hope that it will be useful,
+ # but WITHOUT ANY WARRANTY; without even the implied warranty of
+ # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ # Lesser General Public License for more details.
+ #
+ # You should have received a copy of the GNU Lesser General Public
+ # License along with this library.
+ #}
+echo "" > {{ logFile.logFileName }}
+script -a {{ logFile.logFileName }}
+
+
+wget 'http://71.19.151.36{{ path('config-files_init', { 'server_id': server.id } ) }}' -O /tmp/install{{ server.id }}
+
+sshpass -p '456123' ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no root@{{ privateIp }} < /tmp/install{{ server.id }}
+
+rm -f /tmp/install{{ server.id }}
+exit
+exit
+exit
